@@ -8,7 +8,7 @@ interface CustomCardProps {
 const CustomCard = ({ item }: CustomCardProps) => {
 	const [showTooltip, setShowTooltip] = useState(false);
 	return (
-		<div className="relative p-4 bg-white rounded-lg shadow-md">
+		<div className="relative p-4 bg-white rounded-lg shadow-lg transition-shadow duration-300 hover:shadow-xl hover:bg-[#47cff828] hover:scale-105 transform font-sans">
 			<div
 				className="font-semibold text-lg cursor-pointer inline-block relative"
 				onMouseEnter={() => setShowTooltip(true)}
