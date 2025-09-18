@@ -1,29 +1,52 @@
 "use client";
 
 import React, { useState } from "react";
+import Toast from "./src/components/ui/Toast";
 import BoardWrapper from "./src/components/dashboard/BoardWrapper";
 import TimelineBoard from "./src/components/dashboard/TimelineBoard";
-import timelineItemsData from "./src/data/timelineItems";
 import TaskModal from "./src/components/taskModal/TaskModal";
-import { TimelineItem } from "./src/types";
+import { useTimelineStore } from "./src/store/timelineStore";
+import { useToastStore } from "./src/store/toastStore";
 
 const Home = () => {
 	const [modalOpen, setModalOpen] = useState(false);
-	const [timelineItems, setTimelineItems] =
-		useState<TimelineItem[]>(timelineItemsData);
 
-	const handleAddTask = (item: Omit<TimelineItem, "id">) => {
-		setTimelineItems((prev: TimelineItem[]) => [
-			...prev,
-			{
-				...item,
-				id: prev.length ? Math.max(...prev.map((i) => i.id)) + 1 : 1,
-			},
-		]);
+	// Zustand stores
+	const {
+		items: timelineItems,
+		addItem,
+		editItem,
+		removeItem,
+	} = useTimelineStore();
+	const { toast, showToast, hideToast } = useToastStore();
+
+	// Handlers with toast notifications
+	const handleAddTask = (item: Parameters<typeof addItem>[0]) => {
+		addItem(item);
+		showToast("success", "Task added successfully!");
+	};
+
+	const handleEditTask = (id: number, name: string) => {
+		editItem(id, name);
+		showToast("success", "Task updated!");
+	};
+
+	const handleRemoveTask = (id: number) => {
+		removeItem(id);
+		showToast("danger", "Task removed!");
 	};
 
 	return (
 		<>
+			{toast && (
+				<div className="fixed top-6 right-6 z-50">
+					<Toast
+						type={toast.type}
+						message={toast.message}
+						onClose={hideToast}
+					/>
+				</div>
+			)}
 			<BoardWrapper>
 				<div className="font-sans">
 					<div className="flex justify-between items-center mb-6">
@@ -34,7 +57,11 @@ const Home = () => {
 							+ Add Task
 						</button>
 					</div>
-					<TimelineBoard items={timelineItems} />
+					<TimelineBoard
+						items={timelineItems}
+						onRemove={handleRemoveTask}
+						onEdit={handleEditTask}
+					/>
 				</div>
 				<TaskModal
 					isOpen={modalOpen}

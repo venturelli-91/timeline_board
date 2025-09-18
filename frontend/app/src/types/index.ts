@@ -36,3 +36,23 @@ export interface CustomCardProps {
 export interface BoardWrapperProps {
 	children: React.ReactNode;
 }
+
+// Toast interfaces (from store/toastStore.ts)
+export interface ToastState {
+	type: "success" | "danger" | "warning";
+	message: string;
+}
+
+export interface ToastStore {
+	toast: ToastState | null;
+	showToast: (type: "success" | "danger" | "warning", message: string) => void;
+	hideToast: () => void;
+}
+
+// Timeline Store interface (from store/timelineStore.ts)
+export interface TimelineStore {
+	items: TimelineItem[];
+	addItem: (item: Omit<TimelineItem, "id">) => void;
+	editItem: (id: number, name: string) => void;
+	removeItem: (id: number) => void;
+}
