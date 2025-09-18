@@ -1,3 +1,13 @@
+// TaskModalProps interface (from components/taskModal/TaskModal.tsx)
+export interface TaskModalProps {
+	isOpen: boolean;
+	onClose: () => void;
+	onAdd: (item: Omit<TimelineItem, "id">) => void;
+}
+// TimelineBoardProps interface (from components/dashboard/TimelineBoard.tsx)
+export interface TimelineBoardProps {
+	items: TimelineItem[];
+}
 // TaskModalUIProps interface (from components/ui/TaskModalUI.tsx)
 export interface TaskModalUIProps {
 	name: string;

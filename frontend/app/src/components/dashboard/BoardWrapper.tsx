@@ -1,5 +1,5 @@
 import React from "react";
-import { BoardWrapperProps } from "../types";
+import { BoardWrapperProps } from "../../types/index";
 
 const BoardWrapper = ({ children }: BoardWrapperProps) => {
 	return (

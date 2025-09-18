@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import TaskModalUI from "../ui/TaskModalUI";
-import { TimelineItem } from "../../types";
-
-interface TaskModalProps {
-	isOpen: boolean;
-	onClose: () => void;
-	onAdd: (item: Omit<TimelineItem, "id">) => void;
-}
-
+import { TaskModalProps } from "../../types/index";
 const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onAdd }) => {
 	const [name, setName] = useState("");
 	const [start, setStart] = useState("");
