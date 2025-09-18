@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import { TimelineItem } from "../../data/timelineItems";
-
-interface CustomCardProps {
-	item: TimelineItem;
-}
+import { CustomCardProps } from "../../types";
 
 const CustomCard = ({ item }: CustomCardProps) => {
 	const [showTooltip, setShowTooltip] = useState(false);

@@ -1,9 +1,4 @@
-export interface TimelineItem {
-	id: number;
-	start: string;
-	end: string;
-	name: string;
-}
+import { TimelineItem } from "../types";
 
 const timelineItems: TimelineItem[] = [
 	{

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import BoardWrapper from "./src/components/ui/BoardWrapper";
+import BoardWrapper from "./src/components/BoardWrapper";
 import CustomCard from "./src/components/ui/CustomCard";
 import timelineItems from "./src/data/timelineItems";
 
