@@ -49,8 +49,8 @@ const Home = () => {
 			)}
 			<BoardWrapper>
 				<div className="font-sans">
-					<div className="flex justify-between items-center mb-6">
-						<h1 className="text-3xl font-bold">Timeline Board</h1>
+					<div className="text-center mb-6">
+						<h1 className="text-3xl font-bold mb-4">Timeline Board</h1>
 						<button
 							className="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow"
 							onClick={() => setModalOpen(true)}>
