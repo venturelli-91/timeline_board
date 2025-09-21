@@ -1,9 +1,5 @@
 import { create } from "zustand";
-
-interface TaskInteractionStore {
-	selectedTaskId: number | null;
-	setSelectedTask: (id: number | null) => void;
-}
+import { TaskInteractionStore } from "../types";
 
 export const useTaskInteractionStore = create<TaskInteractionStore>((set) => ({
 	selectedTaskId: null,

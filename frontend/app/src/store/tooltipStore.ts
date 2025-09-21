@@ -1,16 +1,5 @@
 import { create } from "zustand";
-import { TimelineItem } from "../types";
-
-interface TooltipState {
-	isVisible: boolean;
-	item: TimelineItem | null;
-	position: { x: number; y: number };
-}
-
-interface TooltipStore extends TooltipState {
-	showTooltip: (item: TimelineItem, x: number, y: number) => void;
-	hideTooltip: () => void;
-}
+import { TooltipStore, TimelineItem } from "../types";
 
 export const useTooltipStore = create<TooltipStore>((set) => ({
 	isVisible: false,

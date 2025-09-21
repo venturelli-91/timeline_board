@@ -5,6 +5,7 @@ import TimelineHeader from "../ui/timeLine/TimelineHeader";
 import TimelineControls from "../ui/timeLine/TimelineControls";
 import TimelineTasksContainer from "../ui/timeLine/TimelineTasksContainer";
 import TimelineTooltip from "../ui/timeLine/TimelineTooltip";
+import EditTooltip from "../ui/cards/EditTooltip";
 import { useTimelineViewStore } from "../../store/timelineViewStore";
 import { useTooltipStore } from "../../store/tooltipStore";
 
@@ -119,6 +120,9 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 
 			{/* Timeline Tooltip */}
 			<TimelineTooltip />
+
+			{/* Edit Tooltip */}
+			<EditTooltip onSave={(itemId, newName) => onEdit?.(itemId, newName)} />
 		</div>
 	);
 };

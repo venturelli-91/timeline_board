@@ -117,6 +117,101 @@ export interface TimelineTasksContainerProps {
 	timelineStartDate?: Date;
 }
 
+// Timeline Card Components interfaces
+export interface CompactTimelineCardProps {
+	item: TimelineItem;
+	onDragStart?: (
+		e: React.MouseEvent,
+		item: TimelineItem,
+		left: number,
+		lane: number
+	) => void;
+	currentLeft?: number;
+	currentLane?: number;
+}
+
+export interface ExpandedTimelineCardProps {
+	item: TimelineItem;
+	onRemove?: (id: number) => void;
+}
+
+export interface EditableItemNameProps {
+	initialName: string;
+	onSave: (newName: string) => void;
+	showTooltip?: boolean;
+}
+
+export interface ItemTooltipProps {
+	text: string;
+	isVisible: boolean;
+}
+
+// ===============================
+// STORE INTERFACES
+// ===============================
+
+// Tooltip Store interfaces (from store/tooltipStore.ts)
+export interface TooltipState {
+	isVisible: boolean;
+	item: TimelineItem | null;
+	position: { x: number; y: number };
+}
+
+export interface TooltipStore extends TooltipState {
+	showTooltip: (item: TimelineItem, x: number, y: number) => void;
+	hideTooltip: () => void;
+}
+
+// Drag Store interfaces (from store/dragStore.ts)
+export interface DragState {
+	isDragging: boolean;
+	draggedItem: TimelineItem | null;
+	dragOffset: { x: number; y: number };
+	originalPosition: { left: number; lane: number };
+	previewPosition: { left: number; lane: number } | null;
+}
+
+export interface DragStore extends DragState {
+	startDrag: (
+		item: TimelineItem,
+		offset: { x: number; y: number },
+		originalPos: { left: number; lane: number }
+	) => void;
+	updateDragPosition: (position: { left: number; lane: number }) => void;
+	endDrag: () => void;
+	cancelDrag: () => void;
+}
+
+// Task Interaction Store interface (from store/taskInteractionStore.ts)
+export interface TaskInteractionStore {
+	selectedTaskId: number | null;
+	setSelectedTask: (id: number | null) => void;
+}
+
+// Edit Tooltip Store interfaces (from store/editTooltipStore.ts)
+export interface EditTooltipState {
+	isVisible: boolean;
+	itemId: number | null;
+	itemName: string;
+	position: { x: number; y: number };
+}
+
+export interface EditTooltipStore extends EditTooltipState {
+	showEditTooltip: (
+		itemId: number,
+		itemName: string,
+		x: number,
+		y: number
+	) => void;
+	hideEditTooltip: () => void;
+	updateItemName: (newName: string) => void;
+}
+
+// Edit Tooltip Component interface
+export interface EditTooltipProps {
+	onSave: (itemId: number, newName: string) => void;
+}
+
 // Timeline View Store interface (from store/timelineViewStore.ts)
 export interface TimelineViewStore {
 	timelineWidth: number;
