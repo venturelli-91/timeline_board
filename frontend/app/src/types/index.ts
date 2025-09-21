@@ -26,6 +26,7 @@ export interface TimelineItem {
 
 export interface CustomCardProps {
 	item: TimelineItem;
+	isSelected?: boolean;
 }
 
 export interface BoardWrapperProps {
@@ -48,4 +49,66 @@ export interface TimelineStore {
 	addItem: (item: Omit<TimelineItem, "id">) => void;
 	editItem: (id: number, name: string) => void;
 	removeItem: (id: number) => void;
+}
+
+// Timeline View interfaces (from components/dashboard/TimelineView.tsx)
+export interface TimelineViewProps {
+	items: TimelineItem[];
+	onRemove?: (id: number) => void;
+	onEdit?: (id: number, name: string) => void;
+}
+
+// Time Axis interfaces (from components/ui/TimeAxis.tsx)
+export interface TimeAxisProps {
+	startDate: Date;
+	endDate: Date;
+	width: number;
+}
+
+// Timeline component interfaces
+export interface TimelineHeaderProps {
+	title?: string;
+}
+
+export interface TimelineControlsProps {
+	itemCount: number;
+	totalDays: number;
+}
+
+export interface TimelineGridProps {
+	totalDays: number;
+	dayWidth: number;
+}
+
+export interface PositionedItem extends TimelineItem {
+	left: number;
+	width: number;
+	lane: number;
+	startDays: number;
+	endDays: number;
+}
+
+export interface TimelineTasksContainerProps {
+	positionedItems: PositionedItem[];
+	totalDays: number;
+	dayWidth: number;
+	onRemove?: (id: number) => void;
+	onEdit?: (id: number, name: string) => void;
+}
+
+// Timeline View Store interface (from store/timelineViewStore.ts)
+export interface TimelineViewStore {
+	timelineWidth: number;
+	getTimelineBounds: (items: TimelineItem[]) => {
+		startDate: Date;
+		endDate: Date;
+	};
+	getTotalDays: (startDate: Date, endDate: Date) => number;
+	getDayWidth: (timelineWidth: number, totalDays: number) => number;
+	getPositionedItems: (
+		items: TimelineItem[],
+		startDate: Date,
+		dayWidth: number
+	) => PositionedItem[];
+	setTimelineWidth: (width: number) => void;
 }
