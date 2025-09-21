@@ -22,7 +22,7 @@ const CustomCard = ({
 	};
 
 	return (
-		<div className="relative p-4 bg-white rounded-lg shadow-lg transition-shadow duration-300 hover:shadow-xl hover:bg-[#47cff828] hover:scale-105 transform font-sans">
+		<div className="relative p-4 bg-white rounded-lg shadow-lg transition-shadow duration-300 hover:shadow-xl hover:bg-[#47cff828] hover:scale-105 transform font-sans overflow-visible">
 			<div className="flex justify-between items-start">
 				<div className="font-semibold text-lg inline-block relative">
 					<span
