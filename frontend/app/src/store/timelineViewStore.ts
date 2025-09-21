@@ -80,28 +80,53 @@ export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
 		);
 
 		// Assign lanes to prevent overlapping
-		const lanes: Array<{ endDays: number }> = [];
+		const lanes: Array<
+			Array<{ startDays: number; endDays: number; id: number }>
+		> = [];
 
 		sortedItems.forEach((item) => {
 			// Find the first available lane
-			let assignedLane = 0;
-			for (let i = 0; i < lanes.length; i++) {
-				if (lanes[i].endDays <= item.startDays) {
-					assignedLane = i;
+			let assignedLane = -1;
+
+			// Check each existing lane to see if this item can fit
+			for (let laneIndex = 0; laneIndex < lanes.length; laneIndex++) {
+				const lane = lanes[laneIndex];
+				let canFitInLane = true;
+
+				// Check if this item overlaps with any item in this lane
+				for (const existingItem of lane) {
+					// Check for overlap: new item starts before existing ends AND new item ends after existing starts
+					const hasOverlap =
+						item.startDays < existingItem.endDays &&
+						item.endDays > existingItem.startDays;
+
+					if (hasOverlap) {
+						canFitInLane = false;
+						break;
+					}
+				}
+
+				if (canFitInLane) {
+					assignedLane = laneIndex;
 					break;
 				}
-				assignedLane = i + 1;
 			}
 
-			// Assign the lane
+			// If no available lane found, create a new one
+			if (assignedLane === -1) {
+				assignedLane = lanes.length;
+				lanes.push([]);
+			}
+
+			// Add the item to the assigned lane
+			lanes[assignedLane].push({
+				startDays: item.startDays,
+				endDays: item.endDays,
+				id: item.id,
+			});
+
+			// Assign the lane to the item
 			item.lane = assignedLane;
-
-			// Update or create lane
-			if (lanes[assignedLane]) {
-				lanes[assignedLane].endDays = item.endDays;
-			} else {
-				lanes.push({ endDays: item.endDays });
-			}
 		});
 
 		return sortedItems;

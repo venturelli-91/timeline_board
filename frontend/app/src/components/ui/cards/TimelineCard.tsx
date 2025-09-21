@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TimelineCardProps } from "../../../types";
 import CustomButton from "../buttons/CustomButton";
+import { useTooltipStore } from "../../../store/tooltipStore";
 
 const TimelineCard = ({
 	item,
@@ -14,6 +15,7 @@ const TimelineCard = ({
 	const [showTooltip, setShowTooltip] = useState(false);
 	const [editing, setEditing] = useState(false);
 	const [editValue, setEditValue] = useState(item.name);
+	const { showTooltip: showTimelineTooltip } = useTooltipStore();
 
 	const handleSave = () => {
 		if (onEdit && editValue.trim()) {
@@ -25,7 +27,15 @@ const TimelineCard = ({
 	// Compact view when not selected
 	if (!isSelected) {
 		return (
-			<div className="h-8 bg-blue-500 rounded-sm shadow-sm transition-all duration-200 hover:bg-blue-600 hover:shadow-md flex items-center justify-center cursor-pointer">
+			<div
+				className="h-8 bg-blue-500 rounded-sm shadow-sm transition-all duration-200 hover:bg-blue-600 hover:shadow-md flex items-center justify-center cursor-pointer"
+				onClick={(e: React.MouseEvent) => {
+					e.stopPropagation();
+					const rect = e.currentTarget.getBoundingClientRect();
+					const x = rect.left + rect.width / 2;
+					const y = rect.top;
+					showTimelineTooltip(item, x, y);
+				}}>
 				<span className="text-white text-xs font-medium truncate px-2">
 					{item.name}
 				</span>

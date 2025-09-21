@@ -2,7 +2,6 @@ import React from "react";
 import TimelineCard from "../cards/TimelineCard";
 import TimelineGrid from "./TimelineGrid";
 import { TimelineTasksContainerProps } from "../../../types";
-import { useTaskInteractionStore } from "../../../store/taskInteractionStore";
 
 const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 	positionedItems,
@@ -11,11 +10,9 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 	onRemove,
 	onEdit,
 }) => {
-	const { selectedTaskId, setSelectedTask } = useTaskInteractionStore();
-
 	// Calculate the container height based on the maximum lane used
 	const maxLane = Math.max(...positionedItems.map((item) => item.lane), 0);
-	const containerHeight = Math.max(320, (maxLane + 1) * 70 + 40); // 70px per lane + padding
+	const containerHeight = Math.max(320, (maxLane + 1) * 80 + 40); // 80px per lane + padding
 
 	return (
 		<div
@@ -27,37 +24,23 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 				</div>
 			) : (
 				positionedItems.map((item) => {
-					const topPosition = 20 + item.lane * 70; // Use lane for positioning
-					const isSelected = selectedTaskId === item.id;
+					const topPosition = 20 + item.lane * 80; // Use lane for positioning
 
 					return (
 						<div
 							key={item.id}
-							className={`absolute transition-all duration-200 cursor-pointer ${
-								isSelected ? "z-20" : "z-10"
-							}`}
+							className="absolute transition-all duration-200 z-10"
 							style={{
 								left: `${Math.max(0, item.left)}px`,
 								width: `${Math.max(120, item.width)}px`,
 								top: `${topPosition}px`,
-							}}
-							onClick={() => {
-								// Toggle selection - if already selected, deselect
-								setSelectedTask(isSelected ? null : item.id);
 							}}>
-							<div
-								className={`transition-all duration-200 ${
-									isSelected
-										? "transform scale-105 shadow-lg ring-2 ring-blue-400"
-										: "hover:shadow-md"
-								}`}>
-								<TimelineCard
-									item={item}
-									onRemove={onRemove}
-									onEdit={onEdit}
-									isSelected={isSelected}
-								/>
-							</div>
+							<TimelineCard
+								item={item}
+								onRemove={onRemove}
+								onEdit={onEdit}
+								isSelected={false}
+							/>
 						</div>
 					);
 				})

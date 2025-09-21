@@ -4,8 +4,9 @@ import TimeAxis from "../ui/TimeAxis";
 import TimelineHeader from "../ui/timeLine/TimelineHeader";
 import TimelineControls from "../ui/timeLine/TimelineControls";
 import TimelineTasksContainer from "../ui/timeLine/TimelineTasksContainer";
+import TimelineTooltip from "../ui/timeLine/TimelineTooltip";
 import { useTimelineViewStore } from "../../store/timelineViewStore";
-import { useTaskInteractionStore } from "../../store/taskInteractionStore";
+import { useTooltipStore } from "../../store/tooltipStore";
 
 const TimelineView: React.FC<TimelineViewProps> = ({
 	items,
@@ -20,9 +21,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 		getPositionedItems,
 	} = useTimelineViewStore();
 
-	const { setSelectedTask } = useTaskInteractionStore();
-
-	// Calculate derived values using store methods
+	const { hideTooltip } = useTooltipStore(); // Calculate derived values using store methods
 	const timelineBounds = useMemo(
 		() => getTimelineBounds(items),
 		[items, getTimelineBounds]
@@ -72,7 +71,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 						minWidth: "100%",
 						height: "400px",
 					}}
-					onClick={() => setSelectedTask(null)} // Deselect when clicking on empty space
+					onClick={() => hideTooltip()} // Hide tooltip when clicking on empty space
 				>
 					<TimeAxis
 						startDate={timelineBounds.startDate}
@@ -94,6 +93,9 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 				itemCount={items.length}
 				totalDays={totalDays}
 			/>
+
+			{/* Timeline Tooltip */}
+			<TimelineTooltip />
 		</div>
 	);
 };
