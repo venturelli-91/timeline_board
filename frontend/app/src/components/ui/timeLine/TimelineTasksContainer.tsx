@@ -1,5 +1,5 @@
 import React from "react";
-import CustomCard from "../CustomCard";
+import TimelineCard from "../cards/TimelineCard";
 import TimelineGrid from "./TimelineGrid";
 import { TimelineTasksContainerProps } from "../../../types";
 import { useTaskInteractionStore } from "../../../store/taskInteractionStore";
@@ -51,7 +51,7 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 										? "transform scale-105 shadow-lg ring-2 ring-blue-400"
 										: "hover:shadow-md"
 								}`}>
-								<CustomCard
+								<TimelineCard
 									item={item}
 									onRemove={onRemove}
 									onEdit={onEdit}

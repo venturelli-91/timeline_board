@@ -1,6 +1,6 @@
 import React from "react";
 
-import CustomCard from "../ui/CustomCard";
+import CustomCard from "../ui/cards/CustomCard";
 import { TimelineItem } from "../../types";
 
 interface TimelineBoardProps {

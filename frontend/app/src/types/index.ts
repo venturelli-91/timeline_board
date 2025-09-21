@@ -26,7 +26,17 @@ export interface TimelineItem {
 
 export interface CustomCardProps {
 	item: TimelineItem;
+}
+
+export interface TimelineCardProps {
+	item: TimelineItem;
 	isSelected?: boolean;
+}
+
+export interface CustomButtonProps {
+	name: string;
+	onClick: () => void;
+	className?: string;
 }
 
 export interface BoardWrapperProps {
