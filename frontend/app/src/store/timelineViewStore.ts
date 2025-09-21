@@ -62,7 +62,9 @@ export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
 			);
 
 			const left = Math.max(0, startDays * dayWidth);
-			const width = Math.max(120, duration * dayWidth);
+			// Uniform width: minimum 150px, maximum based on duration but with better scaling
+			const calculatedWidth = duration * dayWidth;
+			const width = Math.max(150, Math.min(calculatedWidth, dayWidth * 7)); // Max 1 week width
 
 			return {
 				...item,
@@ -87,18 +89,19 @@ export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
 		sortedItems.forEach((item) => {
 			// Find the first available lane
 			let assignedLane = -1;
+			const buffer = 0.5; // Half day buffer to prevent visual overlap
 
 			// Check each existing lane to see if this item can fit
 			for (let laneIndex = 0; laneIndex < lanes.length; laneIndex++) {
 				const lane = lanes[laneIndex];
 				let canFitInLane = true;
 
-				// Check if this item overlaps with any item in this lane
+				// Check if this item overlaps with any item in this lane (with buffer)
 				for (const existingItem of lane) {
-					// Check for overlap: new item starts before existing ends AND new item ends after existing starts
+					// Check for overlap with buffer: add small gap even for same-day tasks
 					const hasOverlap =
-						item.startDays < existingItem.endDays &&
-						item.endDays > existingItem.startDays;
+						item.startDays < existingItem.endDays + buffer &&
+						item.endDays + buffer > existingItem.startDays;
 
 					if (hasOverlap) {
 						canFitInLane = false;

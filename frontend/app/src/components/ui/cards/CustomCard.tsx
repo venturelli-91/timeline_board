@@ -1,78 +1,42 @@
 import React, { useState } from "react";
 import { CustomCardProps } from "../../../types";
+import { useEditTooltipStore } from "../../../store/editTooltipStore";
 import CustomButton from "../buttons/CustomButton";
+import ItemTooltip from "./ItemTooltip";
 
 const CustomCard = ({
 	item,
 	onRemove,
-	onEdit,
 }: CustomCardProps & {
 	onRemove?: (id: number) => void;
-	onEdit?: (id: number, name: string) => void;
 }) => {
 	const [showTooltip, setShowTooltip] = useState(false);
-	const [editing, setEditing] = useState(false);
-	const [editValue, setEditValue] = useState(item.name);
+	const { showEditTooltip } = useEditTooltipStore();
 
-	const handleSave = () => {
-		if (onEdit && editValue.trim()) {
-			onEdit(item.id, editValue.trim());
-			setEditing(false);
-		}
+	const handleClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		const rect = e.currentTarget.getBoundingClientRect();
+		const x = rect.left + rect.width / 2;
+		const y = rect.top;
+		showEditTooltip(item.id, item.name, x, y);
 	};
 
 	return (
 		<div className="relative p-4 bg-white rounded-lg shadow-lg transition-shadow duration-300 hover:shadow-xl hover:bg-[#47cff828] hover:scale-105 transform font-sans">
 			<div className="flex justify-between items-start">
 				<div className="font-semibold text-lg inline-block relative">
-					{editing ? (
-						<div className="flex items-center gap-2">
-							<input
-								className="border border-gray-300 rounded px-2 py-1 text-sm"
-								value={editValue}
-								onChange={(e) => setEditValue(e.target.value)}
-								autoFocus
-								onKeyDown={(e) => {
-									if (e.key === "Enter") handleSave();
-									if (e.key === "Escape") setEditing(false);
-								}}
-								placeholder="Edit name"
-								title="Edit item name"
-							/>
-							<CustomButton
-								name="Save"
-								onClick={handleSave}
-								className="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-xs rounded"
-							/>
-							<CustomButton
-								name="Cancel"
-								onClick={() => {
-									setEditing(false);
-									setEditValue(item.name);
-								}}
-								className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-2 py-1 text-xs rounded"
-							/>
-						</div>
-					) : (
-						<span
-							className="cursor-pointer"
-							onMouseEnter={() => setShowTooltip(true)}
-							onMouseLeave={() => setShowTooltip(false)}
-							onClick={() => setEditing(true)}
-							title="Click to edit">
-							{item.name}
-						</span>
-					)}
-					{showTooltip && !editing && (
-						<div
-							role="tooltip"
-							className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-xs opacity-100">
-							{item.name}
-							<div
-								className="tooltip-arrow"
-								data-popper-arrow></div>
-						</div>
-					)}
+					<span
+						className="cursor-pointer hover:text-blue-600 transition-colors"
+						onMouseEnter={() => setShowTooltip(true)}
+						onMouseLeave={() => setShowTooltip(false)}
+						onClick={handleClick}
+						title="Click to edit">
+						{item.name}
+					</span>
+					<ItemTooltip
+						text={item.name}
+						isVisible={showTooltip}
+					/>
 				</div>
 				{onRemove && (
 					<CustomButton
@@ -82,9 +46,9 @@ const CustomCard = ({
 					/>
 				)}
 			</div>
-			<div>
-				<span className="text-xs text-gray-500">
-					{item.start} - {item.end}
+			<div className="mt-3">
+				<span className="text-sm text-gray-600">
+					<strong>Duration:</strong> {item.start} - {item.end}
 				</span>
 			</div>
 		</div>

@@ -8,6 +8,7 @@ import TimelineTooltip from "../ui/timeLine/TimelineTooltip";
 import EditTooltip from "../ui/cards/EditTooltip";
 import { useTimelineViewStore } from "../../store/timelineViewStore";
 import { useTooltipStore } from "../../store/tooltipStore";
+import { useEditTooltipStore } from "../../store/editTooltipStore";
 
 const TimelineView: React.FC<TimelineViewProps> = ({
 	items,
@@ -24,6 +25,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 	} = useTimelineViewStore();
 
 	const { hideTooltip } = useTooltipStore();
+	const { hideEditTooltip } = useEditTooltipStore();
 
 	// Handle item movement from drag & drop
 	const handleItemMove = (
@@ -93,8 +95,10 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 						minWidth: "100%",
 						height: "400px",
 					}}
-					onClick={() => hideTooltip()} // Hide tooltip when clicking on empty space
-				>
+					onClick={() => {
+						hideTooltip(); // Hide tooltip when clicking on empty space
+						hideEditTooltip(); // Hide edit tooltip when clicking on empty space
+					}}>
 					<TimeAxis
 						startDate={timelineBounds.startDate}
 						endDate={timelineBounds.endDate}
@@ -106,7 +110,6 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 						totalDays={totalDays}
 						dayWidth={dayWidth}
 						onRemove={onRemove}
-						onEdit={onEdit}
 						onItemMove={handleItemMove}
 						timelineStartDate={timelineBounds.startDate}
 					/>

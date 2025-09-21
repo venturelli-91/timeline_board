@@ -1,6 +1,7 @@
 import React from "react";
 
 import CustomCard from "../ui/cards/CustomCard";
+import EditTooltip from "../ui/cards/EditTooltip";
 import { TimelineItem } from "../../types";
 
 interface TimelineBoardProps {
@@ -14,16 +15,20 @@ const TimelineBoard: React.FC<TimelineBoardProps> = ({
 	onRemove,
 	onEdit,
 }) => (
-	<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-		{items.map((item) => (
-			<CustomCard
-				key={item.id}
-				item={item}
-				onRemove={onRemove}
-				onEdit={onEdit}
-			/>
-		))}
-	</div>
+	<>
+		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+			{items.map((item) => (
+				<CustomCard
+					key={item.id}
+					item={item}
+					onRemove={onRemove}
+				/>
+			))}
+		</div>
+
+		{/* Edit Tooltip for Grid View */}
+		<EditTooltip onSave={(itemId, newName) => onEdit?.(itemId, newName)} />
+	</>
 );
 
 export default TimelineBoard;

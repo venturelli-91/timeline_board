@@ -17,7 +17,7 @@ const CompactTimelineCard = ({
 
 	return (
 		<div
-			className={`h-8 bg-blue-500 rounded-sm shadow-sm transition-all duration-200 hover:bg-blue-600 hover:shadow-md flex items-center justify-center cursor-grab ${
+			className={`h-10 bg-blue-500 rounded-md shadow-sm transition-all duration-200 hover:bg-blue-600 hover:shadow-md flex items-center justify-start cursor-grab px-3 border border-blue-600 ${
 				isBeingDragged ? "opacity-50" : ""
 			}`}
 			style={{ cursor: isDragging ? "grabbing" : "grab" }}
@@ -35,7 +35,7 @@ const CompactTimelineCard = ({
 					onDragStart(e, item, currentLeft, currentLane);
 				}
 			}}>
-			<span className="text-white text-xs font-medium truncate px-2">
+			<span className="text-white text-sm font-medium truncate flex-1">
 				{item.name}
 			</span>
 		</div>

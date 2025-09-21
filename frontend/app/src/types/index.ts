@@ -108,7 +108,6 @@ export interface TimelineTasksContainerProps {
 	totalDays: number;
 	dayWidth: number;
 	onRemove?: (id: number) => void;
-	onEdit?: (id: number, name: string) => void;
 	onItemMove?: (
 		itemId: number,
 		newStartDate: string,

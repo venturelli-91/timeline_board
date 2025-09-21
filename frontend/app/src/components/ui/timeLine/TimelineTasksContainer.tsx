@@ -10,7 +10,6 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 	totalDays,
 	dayWidth,
 	onRemove,
-	onEdit,
 	onItemMove,
 	timelineStartDate,
 }) => {
@@ -36,7 +35,8 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 				</div>
 			) : (
 				positionedItems.map((item) => {
-					const topPosition = 20 + item.lane * 80; // Use lane for positioning
+					const laneHeight = 60; // Increased spacing between lanes
+					const topPosition = 20 + item.lane * laneHeight;
 
 					return (
 						<div
@@ -44,13 +44,12 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 							className="absolute transition-all duration-200 z-10"
 							style={{
 								left: `${Math.max(0, item.left)}px`,
-								width: `${Math.max(120, item.width)}px`,
+								width: `${Math.max(150, item.width)}px`, // Minimum width matches store calculation
 								top: `${topPosition}px`,
 							}}>
 							<TimelineCard
 								item={item}
 								onRemove={onRemove}
-								onEdit={onEdit}
 								isSelected={false}
 								onDragStart={handleDragStart}
 								currentLeft={item.left}
