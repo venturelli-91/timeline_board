@@ -9,7 +9,7 @@ const CompactTimelineCard = ({
 	currentLeft = 0,
 	currentLane = 0,
 }: CompactTimelineCardProps) => {
-	const { showTooltip: showTimelineTooltip } = useTooltipStore();
+	const { showTooltip: showTimelineTooltip, hideTooltip } = useTooltipStore();
 	const { isDragging, draggedItem } = useDragStore();
 
 	// Hide this card if it's being dragged
@@ -21,12 +21,14 @@ const CompactTimelineCard = ({
 				isBeingDragged ? "opacity-50" : ""
 			}`}
 			style={{ cursor: isDragging ? "grabbing" : "grab" }}
-			onClick={(e: React.MouseEvent) => {
-				e.stopPropagation();
+			onMouseEnter={(e: React.MouseEvent) => {
 				const rect = e.currentTarget.getBoundingClientRect();
 				const x = rect.left + rect.width / 2;
 				const y = rect.top;
 				showTimelineTooltip(item, x, y);
+			}}
+			onMouseLeave={() => {
+				hideTooltip();
 			}}
 			onMouseDown={(e: React.MouseEvent) => {
 				// Only start drag on left mouse button

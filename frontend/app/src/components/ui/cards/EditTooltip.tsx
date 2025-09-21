@@ -47,7 +47,10 @@ const EditTooltip: React.FC<EditTooltipProps> = ({ onSave }) => {
 
 	const handleSave = () => {
 		if (itemId && localName.trim()) {
-			onSave(itemId, localName.trim());
+			// Only call onSave if the name actually changed
+			if (localName.trim() !== itemName) {
+				onSave(itemId, localName.trim());
+			}
 			hideEditTooltip();
 		}
 	};
