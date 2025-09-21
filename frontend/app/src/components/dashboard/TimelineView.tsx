@@ -12,6 +12,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 	items,
 	onRemove,
 	onEdit,
+	onItemUpdate,
 }) => {
 	const {
 		timelineWidth,
@@ -21,7 +22,27 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 		getPositionedItems,
 	} = useTimelineViewStore();
 
-	const { hideTooltip } = useTooltipStore(); // Calculate derived values using store methods
+	const { hideTooltip } = useTooltipStore();
+
+	// Handle item movement from drag & drop
+	const handleItemMove = (
+		itemId: number,
+		newStartDate: string,
+		newEndDate: string
+	) => {
+		if (onItemUpdate) {
+			// Use the new onItemUpdate function for complete item updates
+			onItemUpdate(itemId, { start: newStartDate, end: newEndDate });
+		} else if (onEdit) {
+			// Fallback to old onEdit function (name-only updates)
+			const item = items.find((i) => i.id === itemId);
+			if (item) {
+				onEdit(itemId, item.name);
+			}
+		}
+	};
+
+	// Calculate derived values using store methods
 	const timelineBounds = useMemo(
 		() => getTimelineBounds(items),
 		[items, getTimelineBounds]
@@ -85,6 +106,8 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 						dayWidth={dayWidth}
 						onRemove={onRemove}
 						onEdit={onEdit}
+						onItemMove={handleItemMove}
+						timelineStartDate={timelineBounds.startDate}
 					/>
 				</div>
 			</div>

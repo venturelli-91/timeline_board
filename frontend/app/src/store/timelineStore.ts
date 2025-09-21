@@ -24,6 +24,14 @@ export const useTimelineStore = create<TimelineStore>((set, get) => ({
 		}));
 	},
 
+	updateItem: (id: number, updates: Partial<Omit<TimelineItem, "id">>) => {
+		set((state) => ({
+			items: state.items.map((item) =>
+				item.id === id ? { ...item, ...updates } : item
+			),
+		}));
+	},
+
 	removeItem: (id: number) => {
 		set((state) => ({
 			items: state.items.filter((item) => item.id !== id),

@@ -1,7 +1,9 @@
 import React from "react";
 import TimelineCard from "../cards/TimelineCard";
 import TimelineGrid from "./TimelineGrid";
+import DragPreview from "./DragPreview";
 import { TimelineTasksContainerProps } from "../../../types";
+import { useDragDrop } from "../../../hooks/useDragDrop";
 
 const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 	positionedItems,
@@ -9,10 +11,20 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 	dayWidth,
 	onRemove,
 	onEdit,
+	onItemMove,
+	timelineStartDate,
 }) => {
 	// Calculate the container height based on the maximum lane used
 	const maxLane = Math.max(...positionedItems.map((item) => item.lane), 0);
 	const containerHeight = Math.max(320, (maxLane + 1) * 80 + 40); // 80px per lane + padding
+
+	// Initialize drag & drop
+	const { handleDragStart } = useDragDrop({
+		onItemMove: onItemMove || (() => {}),
+		dayWidth,
+		laneHeight: 80,
+		timelineStartDate: timelineStartDate || new Date(),
+	});
 
 	return (
 		<div
@@ -40,6 +52,9 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 								onRemove={onRemove}
 								onEdit={onEdit}
 								isSelected={false}
+								onDragStart={handleDragStart}
+								currentLeft={item.left}
+								currentLane={item.lane}
 							/>
 						</div>
 					);
@@ -50,6 +65,9 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 				totalDays={totalDays}
 				dayWidth={dayWidth}
 			/>
+
+			{/* Drag Preview */}
+			<DragPreview />
 		</div>
 	);
 };

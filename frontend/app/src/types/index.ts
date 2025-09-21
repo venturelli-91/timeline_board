@@ -58,6 +58,7 @@ export interface TimelineStore {
 	items: TimelineItem[];
 	addItem: (item: Omit<TimelineItem, "id">) => void;
 	editItem: (id: number, name: string) => void;
+	updateItem: (id: number, updates: Partial<Omit<TimelineItem, "id">>) => void;
 	removeItem: (id: number) => void;
 }
 
@@ -66,6 +67,10 @@ export interface TimelineViewProps {
 	items: TimelineItem[];
 	onRemove?: (id: number) => void;
 	onEdit?: (id: number, name: string) => void;
+	onItemUpdate?: (
+		id: number,
+		updates: Partial<Omit<TimelineItem, "id">>
+	) => void;
 }
 
 // Time Axis interfaces (from components/ui/TimeAxis.tsx)
@@ -104,6 +109,12 @@ export interface TimelineTasksContainerProps {
 	dayWidth: number;
 	onRemove?: (id: number) => void;
 	onEdit?: (id: number, name: string) => void;
+	onItemMove?: (
+		itemId: number,
+		newStartDate: string,
+		newEndDate: string
+	) => void;
+	timelineStartDate?: Date;
 }
 
 // Timeline View Store interface (from store/timelineViewStore.ts)

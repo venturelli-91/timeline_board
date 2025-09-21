@@ -18,6 +18,7 @@ const Home = () => {
 		items: timelineItems,
 		addItem,
 		editItem,
+		updateItem,
 		removeItem,
 	} = useTimelineStore();
 	const { toast, showToast, hideToast } = useToastStore();
@@ -36,6 +37,14 @@ const Home = () => {
 	const handleRemoveTask = (id: number) => {
 		removeItem(id);
 		showToast("danger", "Task removed!");
+	};
+
+	const handleUpdateTask = (
+		id: number,
+		updates: Parameters<typeof updateItem>[1]
+	) => {
+		updateItem(id, updates);
+		showToast("success", "Task moved successfully!");
 	};
 
 	return (
@@ -87,6 +96,7 @@ const Home = () => {
 							items={timelineItems}
 							onRemove={handleRemoveTask}
 							onEdit={handleEditTask}
+							onItemUpdate={handleUpdateTask}
 						/>
 					) : (
 						<TimelineBoard

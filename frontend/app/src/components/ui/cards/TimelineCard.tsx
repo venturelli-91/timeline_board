@@ -1,21 +1,37 @@
 import React, { useState } from "react";
-import { TimelineCardProps } from "../../../types";
+import { TimelineCardProps, TimelineItem } from "../../../types";
 import CustomButton from "../buttons/CustomButton";
 import { useTooltipStore } from "../../../store/tooltipStore";
+import { useDragStore } from "../../../store/dragStore";
 
 const TimelineCard = ({
 	item,
 	onRemove,
 	onEdit,
 	isSelected = false,
+	onDragStart,
+	currentLeft = 0,
+	currentLane = 0,
 }: TimelineCardProps & {
 	onRemove?: (id: number) => void;
 	onEdit?: (id: number, name: string) => void;
+	onDragStart?: (
+		e: React.MouseEvent,
+		item: TimelineItem,
+		left: number,
+		lane: number
+	) => void;
+	currentLeft?: number;
+	currentLane?: number;
 }) => {
 	const [showTooltip, setShowTooltip] = useState(false);
 	const [editing, setEditing] = useState(false);
 	const [editValue, setEditValue] = useState(item.name);
 	const { showTooltip: showTimelineTooltip } = useTooltipStore();
+	const { isDragging, draggedItem } = useDragStore();
+
+	// Hide this card if it's being dragged
+	const isBeingDragged = isDragging && draggedItem?.id === item.id;
 
 	const handleSave = () => {
 		if (onEdit && editValue.trim()) {
@@ -28,13 +44,23 @@ const TimelineCard = ({
 	if (!isSelected) {
 		return (
 			<div
-				className="h-8 bg-blue-500 rounded-sm shadow-sm transition-all duration-200 hover:bg-blue-600 hover:shadow-md flex items-center justify-center cursor-pointer"
+				className={`h-8 bg-blue-500 rounded-sm shadow-sm transition-all duration-200 hover:bg-blue-600 hover:shadow-md flex items-center justify-center cursor-grab ${
+					isBeingDragged ? "opacity-50" : ""
+				}`}
+				style={{ cursor: isDragging ? "grabbing" : "grab" }}
 				onClick={(e: React.MouseEvent) => {
 					e.stopPropagation();
 					const rect = e.currentTarget.getBoundingClientRect();
 					const x = rect.left + rect.width / 2;
 					const y = rect.top;
 					showTimelineTooltip(item, x, y);
+				}}
+				onMouseDown={(e: React.MouseEvent) => {
+					// Only start drag on left mouse button
+					if (e.button === 0 && onDragStart) {
+						e.preventDefault();
+						onDragStart(e, item, currentLeft, currentLane);
+					}
 				}}>
 				<span className="text-white text-xs font-medium truncate px-2">
 					{item.name}
