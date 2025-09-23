@@ -1,17 +1,9 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useDragStore } from "../store/dragStore";
-import { TimelineItem } from "../types";
+import { TimelineItem } from "../types/common";
+import { UseDragDropProps } from "../types/components/timeline";
 
-interface UseDragDropProps {
-	onItemMove: (
-		itemId: number,
-		newStartDate: string,
-		newEndDate: string
-	) => void;
-	dayWidth: number;
-	laneHeight: number;
-	timelineStartDate: Date;
-}
+// UseDragDropProps is exported from types/components/timeline
 
 export const useDragDrop = ({
 	onItemMove,
@@ -19,6 +11,7 @@ export const useDragDrop = ({
 	laneHeight,
 	timelineStartDate,
 }: UseDragDropProps) => {
+	const containerRectRef = useRef<DOMRect | null>(null);
 	const {
 		isDragging,
 		draggedItem,
@@ -30,7 +23,6 @@ export const useDragDrop = ({
 		cancelDrag,
 	} = useDragStore();
 
-	// Convert pixel position to date
 	const pixelToDate = useCallback(
 		(pixelX: number): string => {
 			const daysSinceStart = Math.round(pixelX / dayWidth);
@@ -40,8 +32,6 @@ export const useDragDrop = ({
 		},
 		[dayWidth, timelineStartDate]
 	);
-
-	// Calculate new dates based on position
 	const calculateNewDates = useCallback(
 		(left: number, item: TimelineItem) => {
 			const originalStartDate = new Date(item.start);
@@ -61,15 +51,19 @@ export const useDragDrop = ({
 		[pixelToDate]
 	);
 
-	// Handle mouse move during drag
 	const handleMouseMove = useCallback(
 		(e: MouseEvent) => {
 			if (!isDragging || !draggedItem) return;
+			const rect = containerRectRef.current;
+			if (!rect) return;
 
-			const newLeft = Math.max(0, e.clientX - dragOffset.x);
+			const relativeX = e.clientX - rect.left;
+			const relativeY = e.clientY - rect.top;
+
+			const newLeft = Math.max(0, relativeX - dragOffset.x);
 			const newLane = Math.max(
 				0,
-				Math.floor((e.clientY - dragOffset.y) / laneHeight)
+				Math.floor((relativeY - dragOffset.y) / laneHeight)
 			);
 
 			updateDragPosition({ left: newLeft, lane: newLane });
@@ -100,7 +94,6 @@ export const useDragDrop = ({
 		cancelDrag,
 	]);
 
-	// Handle escape key to cancel drag
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent) => {
 			if (e.key === "Escape" && isDragging) {
@@ -110,7 +103,6 @@ export const useDragDrop = ({
 		[isDragging, cancelDrag]
 	);
 
-	// Set up global event listeners
 	useEffect(() => {
 		if (isDragging) {
 			document.addEventListener("mousemove", handleMouseMove);
@@ -134,9 +126,18 @@ export const useDragDrop = ({
 			currentLane: number
 		) => {
 			e.preventDefault();
-			const rect = e.currentTarget.getBoundingClientRect();
-			const offsetX = e.clientX - rect.left;
-			const offsetY = e.clientY - rect.top;
+
+			const timelineContainer = e.currentTarget.closest(
+				"[data-timeline-container]"
+			) as HTMLElement;
+			if (!timelineContainer) return;
+
+			const containerRect = timelineContainer.getBoundingClientRect();
+			// store rect for subsequent mousemove events
+			containerRectRef.current = containerRect;
+
+			const offsetX = e.clientX - containerRect.left - currentLeft;
+			const offsetY = e.clientY - containerRect.top - currentLane * laneHeight;
 
 			startDrag(
 				item,
@@ -144,7 +145,7 @@ export const useDragDrop = ({
 				{ left: currentLeft, lane: currentLane }
 			);
 		},
-		[startDrag]
+		[startDrag, laneHeight]
 	);
 
 	return {

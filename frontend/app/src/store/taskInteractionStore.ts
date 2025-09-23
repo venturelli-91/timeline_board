@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { TaskInteractionStore } from "../types";
+import { TaskInteractionStore } from "../types/stores/taskInteraction";
 
 export const useTaskInteractionStore = create<TaskInteractionStore>((set) => ({
 	selectedTaskId: null,

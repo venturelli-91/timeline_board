@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { TimelineItem, TimelineStore } from "../types";
+import { TimelineItem } from "../types/common";
+import { TimelineStore } from "../types/stores/timeline";
 import timelineItemsData from "../data/timelineItems";
 
 export const useTimelineStore = create<TimelineStore>((set, get) => ({

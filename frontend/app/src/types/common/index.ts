@@ -1,5 +1,3 @@
-// Common interfaces used across the application
-
 export interface TimelineItem {
 	id: number;
 	start: string;

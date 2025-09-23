@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { TooltipStore, TimelineItem } from "../types";
+import { TooltipStore } from "../types/stores/tooltip";
+import { TimelineItem } from "../types/common";
 
 export const useTooltipStore = create<TooltipStore>((set) => ({
 	isVisible: false,

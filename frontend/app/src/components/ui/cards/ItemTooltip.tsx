@@ -1,5 +1,5 @@
 import React from "react";
-import { ItemTooltipProps } from "../../../types";
+import { ItemTooltipProps } from "../../../types/components/ui";
 
 const ItemTooltip = ({ text, isVisible }: ItemTooltipProps) => {
 	if (!isVisible) return null;

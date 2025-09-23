@@ -1,5 +1,5 @@
 import React from "react";
-import { CompactTimelineCardProps } from "../../../types";
+import { CompactTimelineCardProps } from "../../../types/components/cards";
 import { useTooltipStore } from "../../../store/tooltipStore";
 import { useDragStore } from "../../../store/dragStore";
 

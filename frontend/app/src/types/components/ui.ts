@@ -1,5 +1,3 @@
-// UI component interfaces
-
 export interface CustomButtonProps {
 	name: string;
 	onClick: () => void;

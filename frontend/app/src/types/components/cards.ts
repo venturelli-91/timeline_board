@@ -1,4 +1,3 @@
-// Card component interfaces
 import { TimelineItem } from "../common";
 
 export interface CustomCardProps {

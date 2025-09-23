@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { TimelineViewStore, TimelineItem } from "../types";
+import { TimelineItem } from "../types/common";
+import { TimelineViewStore } from "../types/stores/timelineView";
 
 export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
 	timelineWidth: 1200,
@@ -22,8 +23,7 @@ export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
 		const minDate = new Date(Math.min(...dates.map((d) => d.getTime())));
 		const maxDate = new Date(Math.max(...dates.map((d) => d.getTime())));
 
-		// Add padding to the timeline
-		const padding = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+		const padding = 7 * 24 * 60 * 60 * 1000;
 		minDate.setTime(minDate.getTime() - padding);
 		maxDate.setTime(maxDate.getTime() + padding);
 
@@ -45,7 +45,6 @@ export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
 		startDate: Date,
 		dayWidth: number
 	) => {
-		// First, calculate basic positioning for all items
 		const basicPositioned = items.map((item) => {
 			const itemStartDate = new Date(item.start);
 			const itemEndDate = new Date(item.end);
@@ -54,7 +53,7 @@ export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
 				(itemStartDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
 			);
 			const duration = Math.max(
-				1, // Minimum 1 day
+				1,
 				Math.ceil(
 					(itemEndDate.getTime() - itemStartDate.getTime()) /
 						(1000 * 60 * 60 * 24)
@@ -62,9 +61,9 @@ export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
 			);
 
 			const left = Math.max(0, startDays * dayWidth);
-			// Uniform width: minimum 150px, maximum based on duration but with better scaling
+
 			const calculatedWidth = duration * dayWidth;
-			const width = Math.max(150, Math.min(calculatedWidth, dayWidth * 7)); // Max 1 week width
+			const width = Math.max(150, Math.min(calculatedWidth, dayWidth * 7));
 
 			return {
 				...item,
@@ -72,33 +71,27 @@ export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
 				width,
 				startDays,
 				endDays: startDays + duration,
-				lane: 0, // Will be calculated below
+				lane: 0,
 			};
 		});
 
-		// Sort by start date to process chronologically
 		const sortedItems = [...basicPositioned].sort(
 			(a, b) => a.startDays - b.startDays
 		);
 
-		// Assign lanes to prevent overlapping
 		const lanes: Array<
 			Array<{ startDays: number; endDays: number; id: number }>
 		> = [];
 
 		sortedItems.forEach((item) => {
-			// Find the first available lane
 			let assignedLane = -1;
-			const buffer = 0.5; // Half day buffer to prevent visual overlap
+			const buffer = 0.5;
 
-			// Check each existing lane to see if this item can fit
 			for (let laneIndex = 0; laneIndex < lanes.length; laneIndex++) {
 				const lane = lanes[laneIndex];
 				let canFitInLane = true;
 
-				// Check if this item overlaps with any item in this lane (with buffer)
 				for (const existingItem of lane) {
-					// Check for overlap with buffer: add small gap even for same-day tasks
 					const hasOverlap =
 						item.startDays < existingItem.endDays + buffer &&
 						item.endDays + buffer > existingItem.startDays;
@@ -115,20 +108,17 @@ export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
 				}
 			}
 
-			// If no available lane found, create a new one
 			if (assignedLane === -1) {
 				assignedLane = lanes.length;
 				lanes.push([]);
 			}
 
-			// Add the item to the assigned lane
 			lanes[assignedLane].push({
 				startDays: item.startDays,
 				endDays: item.endDays,
 				id: item.id,
 			});
 
-			// Assign the lane to the item
 			item.lane = assignedLane;
 		});
 

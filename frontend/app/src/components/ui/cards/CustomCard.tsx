@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CustomCardProps } from "../../../types";
+import { CustomCardProps } from "../../../types/components/cards";
 import { useEditTooltipStore } from "../../../store/editTooltipStore";
 import CustomButton from "../buttons/CustomButton";
 import ItemTooltip from "./ItemTooltip";

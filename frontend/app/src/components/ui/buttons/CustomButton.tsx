@@ -1,5 +1,5 @@
 import React from "react";
-import { CustomButtonProps } from "../../../types";
+import { CustomButtonProps } from "../../../types/components/ui";
 
 const CustomButton = ({ name, onClick, className = "" }: CustomButtonProps) => {
 	return (

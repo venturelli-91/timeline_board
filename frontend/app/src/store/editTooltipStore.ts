@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { EditTooltipStore } from "../types";
+import { EditTooltipStore } from "../types/stores/editTooltip";
 
 export const useEditTooltipStore = create<EditTooltipStore>((set) => ({
 	isVisible: false,

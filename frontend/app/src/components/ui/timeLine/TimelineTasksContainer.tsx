@@ -2,7 +2,7 @@ import React from "react";
 import TimelineCard from "../cards/TimelineCard";
 import TimelineGrid from "./TimelineGrid";
 import DragPreview from "./DragPreview";
-import { TimelineTasksContainerProps } from "../../../types";
+import { TimelineTasksContainerProps } from "../../../types/components/timeline";
 import { useDragDrop } from "../../../hooks/useDragDrop";
 
 const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
@@ -13,11 +13,14 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 	onItemMove,
 	timelineStartDate,
 }) => {
-	// Calculate the container height based on the maximum lane used
-	const maxLane = Math.max(...positionedItems.map((item) => item.lane), 0);
-	const containerHeight = Math.max(320, (maxLane + 1) * 80 + 40); // 80px per lane + padding
+	const maxLane = Math.max(
+		...positionedItems.map(
+			(item: (typeof positionedItems)[number]) => item.lane
+		),
+		0
+	);
+	const containerHeight = Math.max(320, (maxLane + 1) * 80 + 40);
 
-	// Initialize drag & drop
 	const { handleDragStart } = useDragDrop({
 		onItemMove: onItemMove || (() => {}),
 		dayWidth,
@@ -28,13 +31,14 @@ const TimelineTasksContainer: React.FC<TimelineTasksContainerProps> = ({
 	return (
 		<div
 			className="relative py-4"
+			data-timeline-container
 			style={{ minHeight: `${containerHeight}px`, height: "auto" }}>
 			{positionedItems.length === 0 ? (
 				<div className="absolute inset-0 flex items-center justify-center text-gray-500">
 					No positioned items to display
 				</div>
 			) : (
-				positionedItems.map((item) => {
+				positionedItems.map((item: (typeof positionedItems)[number]) => {
 					const laneHeight = 60; // Increased spacing between lanes
 					const topPosition = 20 + item.lane * laneHeight;
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { TimeAxisProps } from "../../types";
+import { TimeAxisProps } from "../../types/components/timeline";
 
 const TimeAxis: React.FC<TimeAxisProps> = ({ startDate, endDate, width }) => {
 	const generateTimeMarkers = () => {
@@ -29,8 +29,7 @@ const TimeAxis: React.FC<TimeAxisProps> = ({ startDate, endDate, width }) => {
 	const timeMarkers = generateTimeMarkers();
 
 	return (
-		<div className="relative w-full h-20 bg-gradient-to-b from-gray-50 to-gray-100 border-b-2 border-gray-300 shadow-sm">
-			{/* Background grid lines */}
+		<div className="relative w-full h-28 bg-gradient-to-b from-gray-50 to-gray-100 border-b-2 border-gray-300 shadow-sm">
 			<div className="absolute inset-0">
 				{timeMarkers.map((marker, index) => (
 					<div
@@ -47,8 +46,7 @@ const TimeAxis: React.FC<TimeAxisProps> = ({ startDate, endDate, width }) => {
 				))}
 			</div>
 
-			{/* Date labels */}
-			<div className="absolute inset-0 flex items-center pt-2">
+			<div className="absolute inset-0 flex items-center pt-4">
 				{timeMarkers.map((marker, index) => (
 					<div
 						key={index}
@@ -73,31 +71,6 @@ const TimeAxis: React.FC<TimeAxisProps> = ({ startDate, endDate, width }) => {
 					</div>
 				))}
 			</div>
-
-			{/* Today indicator */}
-			{(() => {
-				const today = new Date();
-				if (today >= startDate && today <= endDate) {
-					const todayPosition =
-						((today.getTime() - startDate.getTime()) /
-							(endDate.getTime() - startDate.getTime())) *
-						width;
-
-					return (
-						<div
-							className="absolute top-0 bottom-0 border-l-2 border-red-500 z-10 shadow-lg"
-							style={{ left: todayPosition }}>
-							<div className="absolute -top-3 left-0 transform -translate-x-1/2">
-								<div className="bg-red-500 text-white text-xs px-2 py-1 rounded-md text-center whitespace-nowrap shadow-md font-semibold">
-									TODAY
-								</div>
-								<div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-500"></div>
-							</div>
-						</div>
-					);
-				}
-				return null;
-			})()}
 		</div>
 	);
 };

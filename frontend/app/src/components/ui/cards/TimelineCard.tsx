@@ -1,5 +1,6 @@
 import React from "react";
-import { TimelineCardProps, TimelineItem } from "../../../types";
+import { TimelineCardProps } from "../../../types/components/cards";
+import { TimelineItem } from "../../../types/common";
 import CompactTimelineCard from "./CompactTimelineCard";
 import ExpandedTimelineCard from "./ExpandedTimelineCard";
 

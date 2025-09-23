@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ToastStore } from "../types";
+import { ToastStore } from "../types/stores/toast";
 
 export const useToastStore = create<ToastStore>((set) => ({
 	toast: null,

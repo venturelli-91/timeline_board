@@ -1,8 +1,9 @@
-// Timeline component interfaces
 import { TimelineItem, PositionedItem } from "../common";
 
 export interface TimelineBoardProps {
 	items: TimelineItem[];
+	onRemove?: (id: number) => void;
+	onEdit?: (id: number, name: string) => void;
 }
 
 export interface TimelineViewProps {
@@ -46,4 +47,14 @@ export interface TimeAxisProps {
 	startDate: Date;
 	endDate: Date;
 	width: number;
+}
+export interface UseDragDropProps {
+	onItemMove: (
+		itemId: number,
+		newStartDate: string,
+		newEndDate: string
+	) => void;
+	dayWidth: number;
+	laneHeight: number;
+	timelineStartDate: Date;
 }

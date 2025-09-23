@@ -1,5 +1,5 @@
 import React from "react";
-import { BoardWrapperProps } from "../../types/index";
+import { BoardWrapperProps } from "../../types/components/ui";
 import { useEditTooltipStore } from "../../store/editTooltipStore";
 import { useTooltipStore } from "../../store/tooltipStore";
 
@@ -8,7 +8,6 @@ const BoardWrapper = ({ children }: BoardWrapperProps) => {
 	const { hideTooltip } = useTooltipStore();
 
 	const handleClickOutside = (e: React.MouseEvent) => {
-		// Only close tooltips if clicking directly on the wrapper (not on children)
 		if (e.target === e.currentTarget) {
 			hideEditTooltip();
 			hideTooltip();

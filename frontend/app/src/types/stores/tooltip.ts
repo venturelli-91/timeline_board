@@ -1,4 +1,3 @@
-// Tooltip store interfaces
 import { TimelineItem } from "../common";
 
 export interface TooltipState {

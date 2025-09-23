@@ -2,13 +2,7 @@ import React from "react";
 
 import CustomCard from "../ui/cards/CustomCard";
 import EditTooltip from "../ui/cards/EditTooltip";
-import { TimelineItem } from "../../types";
-
-interface TimelineBoardProps {
-	items: TimelineItem[];
-	onRemove?: (id: number) => void;
-	onEdit?: (id: number, name: string) => void;
-}
+import { TimelineBoardProps } from "../../types/components/timeline";
 
 const TimelineBoard: React.FC<TimelineBoardProps> = ({
 	items,
@@ -25,9 +19,9 @@ const TimelineBoard: React.FC<TimelineBoardProps> = ({
 				/>
 			))}
 		</div>
-
-		{/* Edit Tooltip for Grid View */}
-		<EditTooltip onSave={(itemId, newName) => onEdit?.(itemId, newName)} />
+		<EditTooltip
+			onSave={(itemId: number, newName: string) => onEdit?.(itemId, newName)}
+		/>
 	</>
 );
 

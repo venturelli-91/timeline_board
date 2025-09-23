@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useEditTooltipStore } from "../../../store/editTooltipStore";
-import { EditTooltipProps } from "../../../types";
+import { EditTooltipProps } from "../../../types/components/ui";
 import CustomButton from "../buttons/CustomButton";
 
 const EditTooltip: React.FC<EditTooltipProps> = ({ onSave }) => {

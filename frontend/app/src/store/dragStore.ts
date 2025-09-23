@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { DragStore } from "../types";
+import { DragStore } from "../types/stores/drag";
 
 export const useDragStore = create<DragStore>((set) => ({
 	isDragging: false,

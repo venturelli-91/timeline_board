@@ -1,4 +1,3 @@
-// Toast store interfaces
 import { ToastState } from "../common";
 
 export interface ToastStore {

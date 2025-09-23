@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TaskModalUI from "../ui/TaskModalUI";
-import { TaskModalProps } from "../../types/index";
+import { TaskModalProps } from "../../types/components/modal";
 const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onAdd }) => {
 	const [name, setName] = useState("");
 	const [start, setStart] = useState("");

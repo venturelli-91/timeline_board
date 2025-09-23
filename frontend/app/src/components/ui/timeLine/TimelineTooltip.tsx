@@ -4,7 +4,6 @@ import { useTooltipStore } from "../../../store/tooltipStore";
 const TimelineTooltip: React.FC = () => {
 	const { isVisible, item, position, hideTooltip } = useTooltipStore();
 
-	// Close tooltip when pressing ESC
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "Escape") {
@@ -55,7 +54,6 @@ const TimelineTooltip: React.FC = () => {
 				</div>
 			</div>
 
-			{/* Small arrow pointing down */}
 			<div
 				className="absolute top-full left-1/2 transform -translate-x-1/2"
 				style={{

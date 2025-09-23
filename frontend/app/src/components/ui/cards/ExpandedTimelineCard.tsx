@@ -1,5 +1,5 @@
 import React from "react";
-import { ExpandedTimelineCardProps } from "../../../types";
+import { ExpandedTimelineCardProps } from "../../../types/components/cards";
 import CustomButton from "../buttons/CustomButton";
 import EditableItemName from "./EditableItemName";
 
