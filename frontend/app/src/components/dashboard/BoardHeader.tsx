@@ -1,4 +1,5 @@
 import React from "react";
+import { useTimelineViewStore } from "../../store/timelineViewStore";
 
 export interface BoardHeaderProps {
 	title: string;
@@ -13,6 +14,10 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({
 	viewMode = "timeline",
 	onChangeViewMode,
 }) => {
+	const { zoomIn, zoomOut, resetZoom, pxPerDay, minPxPerDay, maxPxPerDay } =
+		useTimelineViewStore();
+	const canZoomOut = pxPerDay > minPxPerDay;
+	const canZoomIn = pxPerDay < maxPxPerDay;
 	return (
 		<div className="shrink-0 border-b bg-gradient-to-r from-blue-50 to-indigo-50">
 			<div className="flex items-center justify-between px-6 py-4 gap-4">
@@ -30,6 +35,41 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({
 							+ Add Task
 						</button>
 					)}
+					{/* Zoom controls (segmented style) */}
+					<div className="flex items-stretch h-9">
+						<div className="flex rounded-md border border-gray-300 overflow-hidden shadow-sm">
+							<button
+								onClick={zoomOut}
+								disabled={!canZoomOut}
+								className={`px-3 text-xs font-medium transition-colors flex items-center disabled:opacity-40 disabled:cursor-not-allowed ${
+									canZoomOut
+										? "bg-white hover:bg-gray-50 text-gray-700"
+										: "bg-gray-100 text-gray-400"
+								}`}
+								title="Zoom Out">
+								−
+							</button>
+							<button
+								onClick={resetZoom}
+								className="px-3 text-xs font-medium transition-colors flex items-center bg-white hover:bg-gray-50 text-gray-700"
+								title={`Reset Zoom (Current: ${Math.round(
+									(pxPerDay / 24) * 100
+								)}%)`}>
+								{Math.round((pxPerDay / 24) * 100)}%
+							</button>
+							<button
+								onClick={zoomIn}
+								disabled={!canZoomIn}
+								className={`px-3 text-xs font-medium transition-colors flex items-center disabled:opacity-40 disabled:cursor-not-allowed ${
+									canZoomIn
+										? "bg-white hover:bg-gray-50 text-gray-700"
+										: "bg-gray-100 text-gray-400"
+								}`}
+								title="Zoom In">
+								+
+							</button>
+						</div>
+					</div>
 					{onChangeViewMode && (
 						<div className="flex rounded-md border border-gray-300 overflow-hidden">
 							<button

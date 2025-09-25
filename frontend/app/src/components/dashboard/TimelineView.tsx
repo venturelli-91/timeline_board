@@ -47,11 +47,11 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 		[timelineBounds, getTotalDays]
 	);
 
-	// Fixed pixels-per-day scale; expand width as days increase
-	const pxPerDay = 24; // tweak for zoom level
+	// Dynamic pixels-per-day from store (zoomable)
+	const { pxPerDay } = useTimelineViewStore();
 	const timelineWidthPx = useMemo(
 		() => Math.max(1200, totalDays * pxPerDay),
-		[totalDays]
+		[totalDays, pxPerDay]
 	);
 
 	const positionedItems = useMemo(

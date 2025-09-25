@@ -2,8 +2,28 @@ import { create } from "zustand";
 import { TimelineItem } from "../types/common";
 import { TimelineViewStore } from "../types/stores/timelineView";
 
-export const useTimelineViewStore = create<TimelineViewStore>((set) => ({
+export const useTimelineViewStore = create<TimelineViewStore>((set, get) => ({
 	timelineWidth: 1200,
+	pxPerDay: 24, // baseline
+	minPxPerDay: 24 * 0.4, // 40% of baseline = 9.6
+	maxPxPerDay: 24 * 2.0, // 200% of baseline = 48
+
+	setPxPerDay: (value: number) => {
+		const { minPxPerDay, maxPxPerDay } = get();
+		const clamped = Math.min(maxPxPerDay, Math.max(minPxPerDay, value));
+		set({ pxPerDay: clamped });
+	},
+	zoomIn: () => {
+		const { pxPerDay, maxPxPerDay } = get();
+		if (pxPerDay < maxPxPerDay)
+			set({ pxPerDay: Math.min(maxPxPerDay, pxPerDay * 1.2) });
+	},
+	zoomOut: () => {
+		const { pxPerDay, minPxPerDay } = get();
+		if (pxPerDay > minPxPerDay)
+			set({ pxPerDay: Math.max(minPxPerDay, pxPerDay / 1.2) });
+	},
+	resetZoom: () => set({ pxPerDay: 24 }),
 
 	getTimelineBounds: (items: TimelineItem[]) => {
 		if (items.length === 0) {
