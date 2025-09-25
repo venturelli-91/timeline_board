@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import Toast from "./src/components/ui/Toast";
 import BoardWrapper from "./src/components/dashboard/BoardWrapper";
-import TimelineBoard from "./src/components/dashboard/TimelineBoard";
 import TimelineView from "./src/components/dashboard/TimelineView";
+import GridView from "./src/components/dashboard/GridView";
 import TaskModal from "./src/components/taskModal/TaskModal";
 import { useTimelineStore } from "./src/store/timelineStore";
 import { useToastStore } from "./src/store/toastStore";
@@ -59,50 +59,25 @@ const Home = () => {
 				</div>
 			)}
 			<BoardWrapper>
-				<div className="font-sans">
-					<div className="text-center mb-6">
-						<h1 className="text-3xl font-bold mb-4">Timeline Board</h1>
-						<div className="flex gap-4 justify-center items-center mb-4">
-							<button
-								className="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow"
-								onClick={() => setModalOpen(true)}>
-								+ Add Task
-							</button>
-							<div className="flex rounded-md border border-gray-300 overflow-hidden">
-								<button
-									className={`px-4 py-2 text-sm font-medium ${
-										viewMode === "timeline"
-											? "bg-blue-500 text-white"
-											: "bg-white text-gray-700 hover:bg-gray-50"
-									}`}
-									onClick={() => setViewMode("timeline")}>
-									Timeline View
-								</button>
-								<button
-									className={`px-4 py-2 text-sm font-medium ${
-										viewMode === "grid"
-											? "bg-blue-500 text-white"
-											: "bg-white text-gray-700 hover:bg-gray-50"
-									}`}
-									onClick={() => setViewMode("grid")}>
-									Grid View
-								</button>
-							</div>
-						</div>
-					</div>
-
+				<div className="font-sans h-full flex flex-col">
 					{viewMode === "timeline" ? (
 						<TimelineView
 							items={timelineItems}
 							onRemove={handleRemoveTask}
 							onEdit={handleEditTask}
 							onItemUpdate={handleUpdateTask}
+							onAddTask={() => setModalOpen(true)}
+							viewMode={viewMode}
+							onChangeViewMode={setViewMode}
 						/>
 					) : (
-						<TimelineBoard
+						<GridView
 							items={timelineItems}
 							onRemove={handleRemoveTask}
 							onEdit={handleEditTask}
+							onAddTask={() => setModalOpen(true)}
+							viewMode={viewMode}
+							onChangeViewMode={setViewMode}
 						/>
 					)}
 				</div>

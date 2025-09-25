@@ -14,6 +14,10 @@ export interface TimelineViewProps {
 		id: number,
 		updates: Partial<Omit<TimelineItem, "id">>
 	) => void;
+	// Header control integration
+	onAddTask?: () => void;
+	viewMode?: "timeline" | "grid"; // Provided so toggle can highlight current (even if only timeline renders this component)
+	onChangeViewMode?: (mode: "timeline" | "grid") => void;
 }
 
 export interface TimelineHeaderProps {

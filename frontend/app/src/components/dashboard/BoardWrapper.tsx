@@ -16,9 +16,9 @@ const BoardWrapper = ({ children }: BoardWrapperProps) => {
 
 	return (
 		<div
-			className="w-full min-h-screen px-6 py-6 bg-gradient-to-b from-white to-gray-50 font-sans overflow-visible"
+			className="w-full h-screen max-h-screen bg-gradient-to-b from-white to-gray-50 font-sans overflow-hidden"
 			onClick={handleClickOutside}>
-			<div className="w-full h-full flex flex-col gap-6">{children}</div>
+			<div className="w-full h-full flex flex-col p-4">{children}</div>
 		</div>
 	);
 };

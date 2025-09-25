@@ -1,8 +1,17 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap");
 
+html,
+body,
+#__next,
+body > div:first-child {
+	height: 100%;
+	min-height: 100%;
+}
+
 body {
 	background: var(--background);
 	color: #3b82f6;
 	font-family: "Jost", Arial, Helvetica, sans-serif;
+	overflow: hidden; /* Prevent page vertical scroll; timeline handles its own overflow */
 }
