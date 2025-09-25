@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { TimelineViewProps } from "../../types/components/timeline";
 import TimeAxis from "../ui/TimeAxis";
-import TimelineHeader from "../ui/timeLine/TimelineHeader";
+import BoardHeader from "./BoardHeader";
 import TimelineControls from "../ui/timeLine/TimelineControls";
 import TimelineTasksContainer from "../ui/timeLine/TimelineTasksContainer";
 import TimelineTooltip from "../ui/timeLine/TimelineTooltip";
@@ -70,41 +70,12 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 
 	return (
 		<div className="w-full h-full border border-gray-300 rounded-xl bg-white shadow-lg overflow-hidden flex flex-col">
-			{/* Integrated Header */}
-			<div className="shrink-0 border-b bg-gradient-to-r from-blue-50 to-indigo-50">
-				<div className="flex items-center justify-between px-6 py-4 gap-4">
-					<div className="flex items-center gap-3">
-						<TimelineHeader />
-					</div>
-					<div className="flex items-center gap-3">
-						<button
-							onClick={onAddTask}
-							className="px-3 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow">
-							+ Add Task
-						</button>
-						<div className="flex rounded-md border border-gray-300 overflow-hidden">
-							<button
-								className={`px-3 py-2 text-xs font-medium transition-colors ${
-									viewMode === "timeline"
-										? "bg-blue-500 text-white"
-										: "bg-white text-gray-700 hover:bg-gray-50"
-								}`}
-								onClick={() => onChangeViewMode?.("timeline")}>
-								Timeline
-							</button>
-							<button
-								className={`px-3 py-2 text-xs font-medium transition-colors ${
-									viewMode === "grid"
-										? "bg-blue-500 text-white"
-										: "bg-white text-gray-700 hover:bg-gray-50"
-								}`}
-								onClick={() => onChangeViewMode?.("grid")}>
-								Grid
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
+			<BoardHeader
+				title="Timeline View"
+				onAddTask={onAddTask}
+				viewMode={viewMode}
+				onChangeViewMode={onChangeViewMode}
+			/>
 
 			{items.length === 0 && (
 				<div className="p-4 text-center text-gray-500">
