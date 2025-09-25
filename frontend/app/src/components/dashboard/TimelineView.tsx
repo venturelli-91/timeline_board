@@ -66,7 +66,7 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 	});
 
 	return (
-		<div className="w-full border border-gray-300 rounded-xl bg-white shadow-lg overflow-hidden">
+		<div className="w-full border border-gray-300 rounded-xl bg-white shadow-lg overflow-hidden flex flex-col">
 			<TimelineHeader />
 
 			{items.length === 0 && (
@@ -76,14 +76,14 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 			)}
 
 			<div
-				className="overflow-x-auto overflow-y-visible"
-				style={{ minHeight: "400px" }}>
+				className="overflow-x-auto overflow-y-visible flex-1"
+				style={{ minHeight: "500px" }}>
 				<div
 					className="relative"
 					style={{
 						width: `${timelineWidthPx}px`,
 						minWidth: "100%",
-						height: "400px",
+						minHeight: "calc(100vh - 260px)",
 					}}
 					onClick={() => {
 						hideTooltip();
@@ -95,7 +95,6 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 						width={timelineWidthPx}
 					/>
 
-					{/* GLOBAL TODAY MARKER */}
 					{(() => {
 						const today = new Date();
 						if (
