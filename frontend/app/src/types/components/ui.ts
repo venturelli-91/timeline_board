@@ -35,3 +35,24 @@ export interface ItemTooltipProps {
 export interface EditTooltipProps {
 	onSave: (itemId: number, newName: string) => void;
 }
+
+export interface ErrorBoundaryProps {
+	children: React.ReactNode;
+	fallback?: React.ReactNode;
+}
+
+export interface ErrorBoundaryState {
+	hasError: boolean;
+	error?: Error;
+}
+
+export interface ToastProps {
+	type: "success" | "danger" | "warning";
+	message: string;
+	onClose?: () => void;
+}
+
+export interface LoadingSpinnerProps {
+	size?: "sm" | "md" | "lg";
+	className?: string;
+}

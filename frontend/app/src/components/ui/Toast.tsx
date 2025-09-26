@@ -1,10 +1,5 @@
 import React from "react";
-
-interface ToastProps {
-	type: "success" | "danger" | "warning";
-	message: string;
-	onClose?: () => void;
-}
+import { ToastProps } from "../../types/components/ui";
 
 const icons = {
 	success: (

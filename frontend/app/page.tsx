@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Toast from "./src/components/ui/Toast";
+import ErrorBoundary from "./src/components/ui/ErrorBoundary";
 import BoardWrapper from "./src/components/dashboard/BoardWrapper";
 import TimelineView from "./src/components/dashboard/TimelineView";
 import GridView from "./src/components/dashboard/GridView";
@@ -48,7 +49,7 @@ const Home = () => {
 	};
 
 	return (
-		<>
+		<ErrorBoundary>
 			{toast && (
 				<div className="fixed top-6 right-6 z-50">
 					<Toast
@@ -87,7 +88,7 @@ const Home = () => {
 					onAdd={handleAddTask}
 				/>
 			</BoardWrapper>
-		</>
+		</ErrorBoundary>
 	);
 };
 

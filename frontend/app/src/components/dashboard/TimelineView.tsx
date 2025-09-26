@@ -59,15 +59,6 @@ const TimelineView: React.FC<TimelineViewProps> = ({
 		[items, timelineBounds.startDate, pxPerDay, getPositionedItems]
 	);
 
-	console.log("Timeline Debug:", {
-		itemsCount: items.length,
-		timelineBounds,
-		totalDays,
-		pxPerDay,
-		positionedItemsCount: positionedItems.length,
-		timelineWidthPx,
-	});
-
 	return (
 		<div className="w-full h-full border border-gray-300 rounded-xl bg-white shadow-lg overflow-hidden flex flex-col">
 			<BoardHeader
