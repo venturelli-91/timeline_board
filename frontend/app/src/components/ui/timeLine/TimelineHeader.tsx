@@ -1,5 +1,5 @@
 import React from "react";
-import { TimelineHeaderProps } from "../../../types";
+import { TimelineHeaderProps } from "../../../types/components/timeline";
 
 const TimelineHeader: React.FC<TimelineHeaderProps> = ({
 	title = "Timeline View",

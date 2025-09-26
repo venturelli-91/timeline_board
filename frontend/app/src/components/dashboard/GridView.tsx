@@ -1,13 +1,7 @@
 import React from "react";
 import TimelineBoard from "./TimelineBoard";
-import { TimelineBoardProps } from "../../types/components/timeline";
+import { GridViewProps } from "../../types/components/timeline";
 import BoardHeader from "./BoardHeader";
-
-interface GridViewProps extends TimelineBoardProps {
-	onAddTask?: () => void;
-	viewMode?: "timeline" | "grid";
-	onChangeViewMode?: (mode: "timeline" | "grid") => void;
-}
 
 const GridView: React.FC<GridViewProps> = ({
 	items,

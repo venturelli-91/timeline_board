@@ -1,12 +1,6 @@
 import React from "react";
 import { useTimelineViewStore } from "../../store/timelineViewStore";
-
-export interface BoardHeaderProps {
-	title: string;
-	onAddTask?: () => void;
-	viewMode?: "timeline" | "grid";
-	onChangeViewMode?: (mode: "timeline" | "grid") => void;
-}
+import { BoardHeaderProps } from "../../types/components/ui";
 
 const BoardHeader: React.FC<BoardHeaderProps> = ({
 	title,

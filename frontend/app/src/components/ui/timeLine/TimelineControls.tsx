@@ -1,5 +1,5 @@
 import React from "react";
-import { TimelineControlsProps } from "../../../types";
+import { TimelineControlsProps } from "../../../types/components/timeline";
 
 const TimelineControls: React.FC<TimelineControlsProps> = ({
 	itemCount,

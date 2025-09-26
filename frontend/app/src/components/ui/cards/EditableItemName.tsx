@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { useEditTooltipStore } from "../../../store/editTooltipStore";
+import { EditableItemNameWithTooltipProps } from "../../../types/components/ui";
 import ItemTooltip from "./ItemTooltip";
-
-interface EditableItemNameWithTooltipProps {
-	initialName: string;
-	showTooltip?: boolean;
-	itemId: number;
-}
 
 const EditableItemName = ({
 	initialName,

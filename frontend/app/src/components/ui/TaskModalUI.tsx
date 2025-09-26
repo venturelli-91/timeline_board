@@ -1,5 +1,5 @@
 import React from "react";
-import { TaskModalUIProps } from "../../types";
+import { TaskModalUIProps } from "../../types/components/modal";
 const TaskModalUI: React.FC<TaskModalUIProps> = ({
 	name,
 	start,

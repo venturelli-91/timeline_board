@@ -1,5 +1,5 @@
 import React from "react";
-import { TimelineGridProps } from "../../../types";
+import { TimelineGridProps } from "../../../types/components/timeline";
 
 const TimelineGrid: React.FC<TimelineGridProps> = ({ totalDays, dayWidth }) => {
 	const weekCount = Math.ceil(totalDays / 7);

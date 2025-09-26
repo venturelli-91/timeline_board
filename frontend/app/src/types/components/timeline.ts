@@ -20,6 +20,12 @@ export interface TimelineViewProps {
 	onChangeViewMode?: (mode: "timeline" | "grid") => void;
 }
 
+export interface GridViewProps extends TimelineBoardProps {
+	onAddTask?: () => void;
+	viewMode?: "timeline" | "grid";
+	onChangeViewMode?: (mode: "timeline" | "grid") => void;
+}
+
 export interface TimelineHeaderProps {
 	title?: string;
 }
