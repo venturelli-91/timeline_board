@@ -66,7 +66,7 @@ const EditTooltip: React.FC<EditTooltipProps> = ({ onSave }) => {
 
 	return (
 		<div
-			className="edit-tooltip fixed z-50 bg-white border border-gray-300 rounded-lg shadow-lg p-4 min-w-64"
+			className="edit-tooltip fixed z-[100] bg-white border border-gray-300 rounded-lg shadow-lg p-4 min-w-64 max-w-sm"
 			style={{
 				left: `${position.x}px`,
 				top: `${position.y}px`,

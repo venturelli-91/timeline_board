@@ -23,27 +23,25 @@ const TimelineTooltip: React.FC = () => {
 
 	return (
 		<div
-			className="fixed z-50 bg-white border border-gray-300 rounded-lg shadow-lg p-4 max-w-xs"
+			className="fixed z-[100] bg-white border border-gray-300 rounded-lg shadow-lg p-4 max-w-sm w-80"
 			style={{
 				left: `${position.x}px`,
 				top: `${position.y}px`,
 				transform: "translate(-50%, -100%)", // Center horizontally and position above cursor
 			}}>
 			<div className="mb-2">
-				<h3 className="font-semibold text-lg text-gray-800 mb-1">
-					{item.name}
-				</h3>
+				<h3 className="font-bold text-lg text-gray-800 mb-1">{item.name}</h3>
 			</div>
 
-			<div className="space-y-1 text-sm text-gray-600">
+			<div className="space-y-1 text-sm text-gray-600 font-bold">
 				<div>
-					<span className="font-medium">Start:</span> {item.start}
+					<span className="font-bold">Start:</span> {item.start}
 				</div>
 				<div>
-					<span className="font-medium">End:</span> {item.end}
+					<span className="font-bold">End:</span> {item.end}
 				</div>
 				<div>
-					<span className="font-medium">Duration:</span>{" "}
+					<span className="font-bold">Duration:</span>{" "}
 					{(() => {
 						const startDate = new Date(item.start);
 						const endDate = new Date(item.end);

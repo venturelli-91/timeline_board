@@ -14,11 +14,14 @@ export const useDragDrop = ({
 	const containerRectRef = useRef<DOMRect | null>(null);
 	const {
 		isDragging,
+		isPendingDrag,
 		draggedItem,
 		dragOffset,
 		previewPosition,
+		prepareDrag,
 		startDrag,
 		updateDragPosition,
+		checkDragThreshold,
 		endDrag,
 		cancelDrag,
 	} = useDragStore();
@@ -53,6 +56,17 @@ export const useDragDrop = ({
 
 	const handleMouseMove = useCallback(
 		(e: MouseEvent) => {
+			const mousePos = { x: e.clientX, y: e.clientY };
+
+			// If pending drag, check if we've moved enough to start dragging
+			if (isPendingDrag && !isDragging) {
+				if (checkDragThreshold(mousePos)) {
+					startDrag();
+				}
+				return;
+			}
+
+			// If actually dragging, update position
 			if (!isDragging || !draggedItem) return;
 			const rect = containerRectRef.current;
 			if (!rect) return;
@@ -68,11 +82,26 @@ export const useDragDrop = ({
 
 			updateDragPosition({ left: newLeft, lane: newLane });
 		},
-		[isDragging, draggedItem, dragOffset, laneHeight, updateDragPosition]
+		[
+			isDragging,
+			isPendingDrag,
+			draggedItem,
+			dragOffset,
+			laneHeight,
+			updateDragPosition,
+			checkDragThreshold,
+			startDrag,
+		]
 	);
 
 	// Handle mouse up (end drag)
 	const handleMouseUp = useCallback(() => {
+		// If we were just pending (not actually dragging), just cancel
+		if (isPendingDrag && !isDragging) {
+			cancelDrag();
+			return;
+		}
+
 		if (!isDragging || !draggedItem || !previewPosition) {
 			cancelDrag();
 			return;
@@ -86,6 +115,7 @@ export const useDragDrop = ({
 		endDrag();
 	}, [
 		isDragging,
+		isPendingDrag,
 		draggedItem,
 		previewPosition,
 		calculateNewDates,
@@ -104,7 +134,7 @@ export const useDragDrop = ({
 	);
 
 	useEffect(() => {
-		if (isDragging) {
+		if (isDragging || isPendingDrag) {
 			document.addEventListener("mousemove", handleMouseMove);
 			document.addEventListener("mouseup", handleMouseUp);
 			document.addEventListener("keydown", handleKeyDown);
@@ -115,7 +145,13 @@ export const useDragDrop = ({
 				document.removeEventListener("keydown", handleKeyDown);
 			};
 		}
-	}, [isDragging, handleMouseMove, handleMouseUp, handleKeyDown]);
+	}, [
+		isDragging,
+		isPendingDrag,
+		handleMouseMove,
+		handleMouseUp,
+		handleKeyDown,
+	]);
 
 	// Start drag handler
 	const handleDragStart = useCallback(
@@ -139,13 +175,15 @@ export const useDragDrop = ({
 			const offsetX = e.clientX - containerRect.left - currentLeft;
 			const offsetY = e.clientY - containerRect.top - currentLane * laneHeight;
 
-			startDrag(
+			// Prepare drag instead of starting immediately
+			prepareDrag(
 				item,
 				{ x: offsetX, y: offsetY },
-				{ left: currentLeft, lane: currentLane }
+				{ left: currentLeft, lane: currentLane },
+				{ x: e.clientX, y: e.clientY }
 			);
 		},
-		[startDrag, laneHeight]
+		[prepareDrag, laneHeight]
 	);
 
 	return {
