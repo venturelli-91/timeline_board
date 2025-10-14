@@ -16,7 +16,23 @@ A modern task management system with timeline visualization and drag-and-drop fu
 - **📱 Responsive** - Works on desktop and mobile
 - **⚠️ Error Handling** - Robust error boundaries for stability
 
-## 🛠️ Tech Stack
+## � Screenshots
+
+### Timeline View
+
+![Timeline View](frontend/public/timeline1.png)
+
+### Grid View
+
+![Grid View](frontend/public/timeline_grid.png)
+
+### Modal View
+
+![Modal View](frontend/public/timeline_modal.png)
+
+---
+
+## �🛠️ Tech Stack
 
 - **Next.js 15** - React framework
 - **TypeScript** - Type safety
